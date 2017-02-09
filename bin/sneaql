@@ -1,0 +1,32 @@
+#!/usr/bin/env ruby
+
+require 'sneaql_standard'
+require 'thor'
+
+module Sneaql
+  module Standard
+    class CLI < Thor
+
+  		desc "run_transforms", "run sneaql transforms"
+  		long_desc <<-LONGDESC
+runs transforms based upon current ENV vars
+
+      LONGDESC
+      def run_transforms()
+        Sneaql::SneaqlStandard.new().run()
+  		end
+  		
+  		desc "configure_db", "configure database"
+  		long_desc <<-LONGDESC
+creates the sneaql.transforms table
+
+      LONGDESC
+      def configure_db()
+        Sneaql::SneaqlStandard.new().create_db_objects()
+  		end
+  		
+    end
+  end
+end
+
+Sneaql::Standard::CLI.start(ARGV)
