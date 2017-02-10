@@ -68,3 +68,9 @@ To output a list of commands available in sneaql...
 ```
 sneaql help
 ```
+
+##### Container Build
+
+```
+docker build -t full360/sneaql-standard:0.0.2 .
+```
