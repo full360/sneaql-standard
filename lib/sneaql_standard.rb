@@ -36,9 +36,7 @@ module Sneaql
     # @param [String] transform_table_name if provided will override sneaql.transforms
     def create_transforms_table(transform_table_name = nil)
       transform_table_name = 'sneaql.transforms' unless transform_table_name
-
       connection = create_connection
-
       db_manager = Sneaql::Core.find_class(
         :database,
         @params[:database]
@@ -75,11 +73,28 @@ module Sneaql
       # that is required, as well as an optional
       # regex validation
       [
-        { var: 'SNEAQL_JDBC_URL', sym: :jdbc_url, validation: /^jdbc\:.+/i },
-        { var: 'SNEAQL_DB_USER', sym: :db_user },
-        { var: 'SNEAQL_DB_PASS', sym: :db_pass },
-        { var: 'SNEAQL_JDBC_DRIVER_JAR', sym: :jdbc_driver_jar, validation: /^(http\:\/\/.+|file\:\/\/.+|s3\:\/\/.+)/i },
-        { var: 'SNEAQL_JDBC_DRIVER_CLASS', sym: :jdbc_driver_class }
+        {
+          var: 'SNEAQL_JDBC_URL',
+          sym: :jdbc_url,
+          validation: /^jdbc\:.+/i
+        },
+        {
+          var: 'SNEAQL_DB_USER',
+          sym: :db_user
+        },
+        {
+          var: 'SNEAQL_DB_PASS',
+          sym: :db_pass
+        },
+        {
+          var: 'SNEAQL_JDBC_DRIVER_JAR',
+          sym: :jdbc_driver_jar,
+          validation: /^(http\:\/\/.+|file\:\/\/.+|s3\:\/\/.+)/i
+        },
+        {
+          var: 'SNEAQL_JDBC_DRIVER_CLASS',
+          sym: :jdbc_driver_class
+        }
       ].each do |env_var|
         raise "required environment variable #{env_var[:var]} not provided" unless ENV[env_var[:var]]
         # assign the value of the env_var to the symbol key of @params
@@ -143,7 +158,7 @@ module Sneaql
       # creates a queue to hold all the transform parameter hashes
       @q = Queue.new
 
-      transforms = get_transforms
+      transforms = sneaql_transforms
       logger.info("#{transforms.length} transforms found in database...")
 
       # push transforms on to queue
@@ -180,7 +195,10 @@ module Sneaql
       e.backtrace.each { |b| logger.error(b) }
     end
 
-    def get_transforms
+    # returns an array of hashes representing the active
+    # transforms stored in the database transforms table.
+    # @return [Array<Hash>]
+    def sneaql_transforms
       # configure driver and db manager
       configure_jdbc_driver
       db_manager = Sneaql::Core.find_class(
@@ -206,9 +224,10 @@ module Sneaql
             transform_name;),
         logger
       ).results
-    ensure
       connection.close
       return transforms
+    ensure
+      connection.close if connection
     end
 
     # perform concurrent transform run

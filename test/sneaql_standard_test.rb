@@ -269,7 +269,7 @@ class TestSneaqlStandard < Minitest::Test
     s.set_params()
 
     s.build_transform_queue()
-
+    puts 'executed'
     tmp = []
     s.q.length.times do |o|
       p = s.q.pop(true)

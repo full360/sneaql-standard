@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'sneaql-standard'
-  s.version     = '0.0.1'
+  s.version     = '0.0.2'
   s.date        = '2017-01-18'
   s.summary     = "standard sneaql deployment"
   s.description = "provides a cli and runtime environment for sneaql"
@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.license     = 'MIT'
   s.platform = 'java'
   
-  s.add_runtime_dependency 'sneaql', '~>0.0.4'
+  s.add_runtime_dependency 'sneaql', '~>0.0.5'
   s.add_development_dependency 'minitest', '~>5.9'
   s.add_runtime_dependency "aws-sdk", '~>2.6'
   s.add_runtime_dependency "dotenv", '~>2.1'

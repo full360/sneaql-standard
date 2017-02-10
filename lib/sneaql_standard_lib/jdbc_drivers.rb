@@ -61,11 +61,11 @@ module Sneaql
     # or instance profile for credentials
     def download_driver_s3
       bucket_name = @params[:jdbc_driver_jar].match(
-        /^s3\:\/\/([a-zA-Z0-9]|\.|\-)+/i
+       %r{^s3\://([a-zA-Z0-9]|\.|\-)+}i
       )[0].gsub(/s3\:\/\//i, '')
 
       object_key = @params[:jdbc_driver_jar].gsub(
-        /^s3\:\/\/([a-zA-Z0-9]|\.|\-)+\//i,
+        %r{^s3\://([a-zA-Z0-9]|\.|\-)+\/}i,
         ''
       )
 
