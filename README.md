@@ -18,13 +18,15 @@ The following example demonstrates the environment variables that need to be pas
 export SNEAQL_JDBC_URL=jdbc:redshift://your-cluster.us-west-2.redshift.amazonaws.com:5439/sneaql
 export SNEAQL_DB_USER=dbadmin
 export SNEAQL_DB_PASS=password
-export SNEAQL_JDBC_DRIVER_JAR=http://your-server/RedshiftJDBC4-1.1.6.1006.jar
+export SNEAQL_JDBC_DRIVER_JAR=https://s3.amazonaws.com/redshift-downloads/drivers/RedshiftJDBC4-1.2.1.1001.jar
+export SNEAQL_JDBC_DRIVER_JAR_MD5=6c73aeacd873100d0fb4d00cfd7b6455
 export SNEAQL_JDBC_DRIVER_CLASS=com.amazon.redshift.jdbc4.Driver
 docker run \
 -e SNEAQL_JDBC_URL \
 -e SNEAQL_DB_USER \
 -e SNEAQL_DB_PASS \
 -e SNEAQL_JDBC_DRIVER_JAR \
+-e SNEAQL_JDBC_DRIVER_JAR_MD5 \
 -e SNEAQL_JDBC_DRIVER_CLASS \
 full360/sneaql:latest
 ```
